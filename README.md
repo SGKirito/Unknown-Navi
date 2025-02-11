@@ -113,4 +113,4 @@ Ignore other dev commands, they are my own test commands and might even mess up 
 
 ## Support server
 
-• If you find bugs, have issues running Unknown Navi or something else, feel free to join the [support server](https://discord.gg/JWRy5yKVcc).  
+• If you find bugs, have issues running Unknown Navi or something else, feel free to join the [support server](https://discord.gg/JWRy5yKVcc).  u

@@ -78,7 +78,7 @@ class BoostsCog(commands.Cog):
                     user_name_match = re.search(regex.USERNAME_FROM_EMBED_AUTHOR, embed_author)
                     if user_name_match:
                         user_name = user_name_match.group(1)
-                        embed_users = await functions.get_guild_member_by_name(message.guild, user_name)
+                        embed_users = await functions.get_member_by_name(self.bot, message.guild, user_name)
                     if not user_name_match or not embed_users:
                         return
                 if interaction_user not in embed_users: return
@@ -243,9 +243,9 @@ class BoostsCog(commands.Cog):
                 except exceptions.FirstTimeUserError:
                     return
                 if not user_settings.bot_enabled or not user_settings.alert_boosts.enabled: return
-                timestring_match = re.search(r'for \*\*(.+?)\*\*:', message_content.lower())
                 time_left_hours = 1
-                if user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
+                if user_settings.eternal_boosts_tier >= 4: time_left_hours *= 3
+                elif user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
                 time_left = timedelta(hours=time_left_hours)
                 reminder_message = (
                         user_settings.alert_boosts.message
@@ -304,7 +304,8 @@ class BoostsCog(commands.Cog):
                 current_time = utils.utcnow()
                 time_elapsed = current_time - bot_answer_time
                 time_left -= time_elapsed
-                if user_settings.user_pocket_watch_multiplier < 1: time_left *= 2
+                if user_settings.eternal_boosts_tier >= 4: time_left *= 3
+                elif user_settings.user_pocket_watch_multiplier < 1: time_left *= 2
                 reminder_message = (
                         user_settings.alert_boosts.message
                         .replace('{boost_emoji}', item_emoji)
@@ -341,7 +342,8 @@ class BoostsCog(commands.Cog):
                     return
                 if not user_settings.bot_enabled or not user_settings.alert_boosts.enabled: return
                 time_left_hours = 1
-                if user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
+                if user_settings.eternal_boosts_tier >= 4: time_left_hours *= 3
+                elif user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
                 time_left = timedelta(hours=time_left_hours)
                 reminder_message = (
                         user_settings.alert_boosts.message
@@ -380,7 +382,8 @@ class BoostsCog(commands.Cog):
                     return
                 if not user_settings.bot_enabled or not user_settings.alert_boosts.enabled: return
                 time_left_hours = 2.5
-                if user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
+                if user_settings.eternal_boosts_tier >= 4: time_left_hours *= 3
+                elif user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
                 time_left = timedelta(hours=time_left_hours)
                 reminder_message = (
                         user_settings.alert_boosts.message
@@ -419,7 +422,8 @@ class BoostsCog(commands.Cog):
                     return
                 if not user_settings.bot_enabled or not user_settings.alert_boosts.enabled: return
                 time_left_hours = 4
-                if user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
+                if user_settings.eternal_boosts_tier >= 4: time_left_hours *= 3
+                elif user_settings.user_pocket_watch_multiplier < 1: time_left_hours *= 2
                 time_left = timedelta(hours=time_left_hours)
                 reminder_message = (
                         user_settings.alert_boosts.message
@@ -475,7 +479,8 @@ class BoostsCog(commands.Cog):
                 current_time = utils.utcnow()
                 time_elapsed = current_time - bot_answer_time
                 time_left -= time_elapsed
-                if user_settings.user_pocket_watch_multiplier < 1: time_left *= 2
+                if user_settings.eternal_boosts_tier >= 4: time_left *= 3
+                elif user_settings.user_pocket_watch_multiplier < 1: time_left *= 2
                 await reminders.reduce_reminder_time_percentage(user_settings, 90, strings.ROUND_CARD_AFFECTED_ACTIVITIES)
                 reminder_message = (
                         user_settings.alert_boosts.message
@@ -532,7 +537,8 @@ class BoostsCog(commands.Cog):
                     return
                 if not user_settings.bot_enabled or not user_settings.alert_boosts.enabled: return
                 time_left = timedelta(days=30)
-                if user_settings.user_pocket_watch_multiplier < 1: time_left *= 2
+                if user_settings.eternal_boosts_tier >= 4: time_left *= 3
+                elif user_settings.user_pocket_watch_multiplier < 1: time_left *= 2
                 reminder_message = (
                         user_settings.alert_boosts.message
                         .replace('{boost_emoji}', emojis.MEGA_BOOST)

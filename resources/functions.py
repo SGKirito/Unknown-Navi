@@ -145,9 +145,11 @@ async def get_match_from_patterns(patterns: List[str], string: str) -> re.Match 
     return match
 
 
-# --- Time calculations ---
-async def get_guild_member_by_name(guild: discord.Guild | None, user_name: str) -> List[discord.Member]:
-    """Returns all guild members found by the given name"""
+# --- Get members ---
+async def get_member_by_name(bot: discord.AutoShardedBot, guild: discord.Guild | None, user_name: str) -> List[discord.Member]:
+    """Returns all guild members with the given name
+    If no guild member with the name is found, this function searches in all members the bot can see.
+    """
     members: list[discord.Member] = []
     if guild is None: return members
     for member in guild.members:
@@ -157,9 +159,18 @@ async def get_guild_member_by_name(guild: discord.Guild | None, user_name: str) 
             except exceptions.FirstTimeUserError:
                 continue
             members.append(member)
+    if not members:
+        for member in bot.get_all_members():
+            if await encode_text(member.name) == await encode_text(user_name) and not member.bot:
+                try:
+                    await users.get_user(member.id)
+                except exceptions.FirstTimeUserError:
+                    continue
+                members.append(member)
     return members
 
 
+# --- Time calculations ---
 async def calculate_time_left_from_cooldown(message: discord.Message, user_settings: users.User, activity: str) -> timedelta:
     """Returns the time left for a reminder based on a cooldown."""
     slash_command: bool = True if message.interaction is not None else False

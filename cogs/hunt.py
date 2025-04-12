@@ -41,11 +41,12 @@ class HuntCog(commands.Cog):
 
         if message.embeds:
             embed: discord.Embed = message.embeds[0]
-            message_author = message_title = icon_url = ''
+            message_author = message_title = icon_url = message_description = ''
             if embed.author is not None:
                 message_author = str(embed.author.name)
                 icon_url = str(embed.author.icon_url)
             if embed.title is not None: message_title = str(embed.title)
+            if embed.description is not None: message_description = str(embed.description)
 
             # Hunt cooldown
             search_strings = [
@@ -83,7 +84,7 @@ class HuntCog(commands.Cog):
                     user_name_match = re.search(regex.USERNAME_FROM_EMBED_AUTHOR, message_author)
                     if user_name_match:
                         user_name = user_name_match.group(1)
-                        embed_users = await functions.get_guild_member_by_name(message.guild, user_name)
+                        embed_users = await functions.get_member_by_name(self.bot, message.guild, user_name)
                     if user_name_match is None:
                         await functions.add_warning_reaction(message)
                         await errors.log_error('Embed user not found in hunt cooldown message.', message)
@@ -147,6 +148,28 @@ class HuntCog(commands.Cog):
                 if activity == 'hunt':
                     await user_settings.update(hunt_end_time=utils.utcnow() + time_left)
                 await functions.add_reminder_reaction(message, reminder, user_settings)
+
+
+            # Rare hunt monster event reset (all languages)
+            search_strings = [
+                'golden wolf',
+                'ruby zombie',
+                'diamond unicorn',
+                'emerald mermaid',
+                'sapphire killer robot',
+            ]
+            if  (any(search_string in message_description.lower() for search_string in search_strings)
+                 and (':coffin:' in message_description.lower() or '⚰️' in message_description.lower())):
+                event_players = embed.fields[0].value.split('\n')[0]
+                players_found = re.findall(r'\s(.+?)(?:,|$)', event_players)
+                for user_name in players_found:
+                    users_found = await functions.get_member_by_name(self.bot, message.guild, user_name)
+                    if users_found:
+                        try:
+                            user_settings = await users.get_user(users_found[0].id)
+                        except exceptions.FirstTimeUserError:
+                            continue
+                        await reminders.reduce_reminder_time_percentage(user_settings, 100, ['hunt',])
 
         if not message.embeds:
             message_content = ''
@@ -355,7 +378,7 @@ class HuntCog(commands.Cog):
                     time_left_seconds *= settings.POTION_FLASK_MULTIPLIER
                     
                 if together and partner_christmas_area:
-                    time_left_seconds_partner_hunt *= settings.CHRISTMAS_AREA_MULTIPLIERP
+                    time_left_seconds_partner_hunt *= settings.CHRISTMAS_AREA_MULTIPLIER
                 if together and partner is not None:
                     if partner.round_card_active:
                         time_left_seconds_partner_hunt *= settings.ROUND_CARD_MULTIPLIER                    

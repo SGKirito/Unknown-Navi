@@ -4,10 +4,11 @@ from math import floor
 import re
 
 import discord
+from discord import utils
 from discord.ext import bridge, commands
 
 from cache import messages
-from database import errors, guilds, users
+from database import errors, reminders, users
 from resources import exceptions, functions, regex, settings
 
 
@@ -37,12 +38,14 @@ class ProfileCog(commands.Cog):
 
         if message.embeds:
             embed: discord.Embed = message.embeds[0]
-            embed_author = embed_field0_value = embed_footer = icon_url = ''
+            embed_author = embed_field0_value = embed_footer = icon_url = embed_field_values = ''
             if embed.author is not None:
                 embed_author = str(embed.author.name)
                 icon_url = embed.author.icon_url
             if embed.fields:
                 embed_field0_value = str(embed.fields[0].value)
+            for field in embed.fields:
+                embed_field_values = f'{embed_field_values}\n{field.value}'.strip()
             if embed.footer:
                 embed_footer = embed.footer.text
 
@@ -76,7 +79,7 @@ class ProfileCog(commands.Cog):
                     user_name_match = re.search(regex.USERNAME_FROM_EMBED_AUTHOR, embed_author)
                     if user_name_match:
                         user_name = user_name_match.group(1)
-                        embed_users = await functions.get_guild_member_by_name(message.guild, user_name)
+                        embed_users = await functions.get_member_by_name(self.bot, message.guild, user_name)
                     else:
                         await functions.add_warning_reaction(message)
                         await errors.log_error('Embed user not found in profile message.', message)
@@ -129,6 +132,72 @@ class ProfileCog(commands.Cog):
 
                 if kwargs:
                     await user_settings.update(**kwargs)
+
+
+            # Update settings from eternal profile
+            search_strings = [
+                "— eternal", #All languages
+            ]
+            if (any(search_string in embed_author.lower() for search_string in search_strings)
+                and not 'enchant' in embed_author.lower()):
+                embed_users = []
+                interaction_user = await functions.get_interaction_user(message)
+                if interaction_user is None:
+                    user_command_message = (
+                        await messages.find_message(message.channel.id, regex.COMMAND_PROFILE_PROGRESS)
+                    )
+                    interaction_user = user_command_message.author
+                try:
+                    user_settings: users.User = await users.get_user(interaction_user.id)
+                except exceptions.FirstTimeUserError:
+                    return
+                if not user_settings.bot_enabled: return    
+                user_id_match = re.search(regex.USER_ID_FROM_ICON_URL, icon_url)
+                if user_id_match:
+                    user_id = int(user_id_match.group(1))
+                    try:
+                        embed_users.append(message.guild.get_member(user_id))
+                    except discord.NotFound:
+                        pass
+                else:
+                    user_name_match = re.search(regex.USERNAME_FROM_EMBED_AUTHOR, embed_author)
+                    if user_name_match:
+                        user_name = user_name_match.group(1)
+                        embed_users = await functions.get_member_by_name(self.bot, message.guild, user_name)
+                    else:
+                        await functions.add_warning_reaction(message)
+                        await errors.log_error('Embed user not found in eternal profile message.', message)
+                        return
+                if interaction_user not in embed_users: return
+                
+                kwargs = {}
+                
+                # Update eternal boosts tier
+                gear_tier_matches = re.findall(r'\|\sT(\d+)\sL', embed_field_values)
+                kwargs['eternal_boosts_tier'] = int(min(gear_tier_matches))
+
+                if kwargs:
+                    await user_settings.update(**kwargs)
+
+                timestring_match = re.search(r'for\s(.+?)$', embed_footer)
+                if timestring_match:
+                    time_left = await functions.parse_timestring_to_timedelta(timestring_match.group(1).lower())
+                    bot_answer_time = message.edited_at if message.edited_at else message.created_at
+                    current_time = utils.utcnow()
+                    time_elapsed = current_time - bot_answer_time
+                    time_left -= time_elapsed
+                    reminder_message = user_settings.alert_eternity_sealing.message
+                    reminder: reminders.Reminder = (
+                        await reminders.insert_user_reminder(interaction_user.id, 'eternity-sealing', time_left,
+                                                             message.channel.id, reminder_message)
+                    )
+                    await functions.add_reminder_reaction(message, reminder, user_settings)
+                else:
+                    try:
+                        reminder = await reminders.get_user_reminder(user_settings.user_id, 'eternity-sealing')
+                        await reminder.delete()
+                    except exceptions.NoDataFoundError:
+                        pass
                     
 
 # Initialization

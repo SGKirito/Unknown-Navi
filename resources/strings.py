@@ -133,6 +133,7 @@ DEFAULT_MESSAGES: Final[dict[str, str]] = {
     'epic': '{name} Hey! Your EPIC item cooldown is ready!',
     'epic-shop': '{name} Hey! The {epic_shop_emoji} **{epic_shop_item}** is back on sale in the {command}!',
     'eternal-presents': '{name} Hey! It''s time to {command} your ETERNAL presents! Make sure you open all of them in **one** command!',
+    'eternity-sealing': '{name} Hey! The eternity just sealed itself!',
     'farm': DEFAULT_MESSAGE,
     'guild': DEFAULT_MESSAGE,
     'horse': DEFAULT_MESSAGE,
@@ -210,6 +211,7 @@ ARTIFACTS_EMOJIS: Final[dict[str, str]] = {
     'golden pan': emojis.ARTIFACT_GOLDEN_PAN,
     'master key': emojis.ARTIFACT_MASTER_KEY,
     'pocket watch': emojis.ARTIFACT_POCKET_WATCH,
+    'shiny pickaxe': emojis.ARTIFACT_SHINY_PICKAXE,
     'top hat': emojis.ARTIFACT_TOP_HAT,
     'vampire teeth': emojis.ARTIFACT_VAMPIRE_TEETH,
 }
@@ -326,6 +328,7 @@ ACTIVITIES: Final[tuple[str, ...]] = (
     'dungeon-miniboss',
     'epic',
     'epic-shop',
+    'eternity-sealing',
     'eternal-presents',
     'farm',
     'guild',
@@ -543,6 +546,7 @@ ACTIVITIES_ALIASES: Final[dict[str, str]] = {
     'hunt-together': 'hunt-partner',
     'partner-hunt': 'hunt-partner',
     'huntpartner': 'hunt-partner',
+    'eternity': 'eternity-sealing',
 }
 
 ACTIVITIES_COLUMNS: Final[dict[str, str]] = {
@@ -570,6 +574,7 @@ ACTIVITIES_COLUMNS: Final[dict[str, str]] = {
     'epic': 'alert_epic',
     'epic-shop': 'alert_epic_shop',
     'eternal-presents': 'alert_eternal_present',
+    'eternity-sealing': 'alert_eternity_sealing',
     'farm': 'alert_farm',
     'fish-potion': 'alert_boosts',
     'guild': 'alert_guild',
@@ -661,6 +666,7 @@ EVENT_PINGS: Final[dict[str, str]] = {
     'lootbox': 'Lootbox summoning',
     'fish': 'Megalodon',
     'miniboss': 'Miniboss',
+    'rare_hunt_monster': 'Rare hunt monster',
 }
 
 
@@ -682,6 +688,7 @@ LOOTBOXES: Final[dict[str, str]] = {
     'OMEGA lootbox': emojis.LB_OMEGA,
     'GODLY lootbox': emojis.LB_GODLY,
     'VOID lootbox': emojis.LB_VOID,
+    'ETERNAL lootbox': emojis.LB_ETERNAL,
 }
 
 
@@ -1493,6 +1500,13 @@ FLEX_TITLES_PETS_CATCH_TT: Final[tuple[str, ...]] = (
     'Always close your phone box door',
 )
 
+FLEX_TITLES_PETS_CLAIM_CAPSULE: Final[tuple[str, ...]] = (
+    'That poor cat looks like it has been through a lot',
+    'TIMEY WHIMEY CAT ALERT',
+    'Please don\'t subject your cats to time travel',
+    'Time and space and cat food',
+)
+
 FLEX_TITLES_PETS_CLAIM_OMEGA: Final[tuple[str, ...]] = (
     'Anything for the OMEGAs it seems',
     'This is against the Geneva Conventions',
@@ -1629,6 +1643,10 @@ FLEX_TITLES_TIME_TRAVEL_100_PLUS: Final[tuple[str, ...]] = (
     'The all important question is... why?',
 )
 
+FLEX_TITLES_TIME_TRAVEL_1000000: Final[tuple[str, ...]] = (
+    'A poem for a legend',
+)
+
 FLEX_TITLES_XMAS_CHIMNEY: Final[tuple[str, ...]] = (
     'Now this is embarassing',
     'Can we get a live stream?',
@@ -1706,6 +1724,13 @@ FLEX_THUMBNAILS_ARTIFACTS_COWBOY_BOOTS: Final[tuple[str, ...]] = (
     'https://media1.tenor.com/m/lBEJu36EtYsAAAAd/cowboy-boots-western-boots.gif',
     'https://media1.tenor.com/m/aADNFJFpOzcAAAAC/boots-shoes.gif',
     'https://media1.tenor.com/m/S83c-j-wvpoAAAAC/cowboy-boots-cowboy.gif',
+)
+
+FLEX_THUMBNAILS_ARTIFACTS_SHINY_PICKAXE: Final[tuple[str, ...]] = (
+    'https://c.tenor.com/Isec7K5eGFMAAAAd/tenor.gif',
+    'https://c.tenor.com/byo3PamG1PUAAAAC/tenor.gif',
+    'https://c.tenor.com/NUMy8NdzwBsAAAAC/tenor.gif',
+    'https://c.tenor.com/qBxnw59KgQcAAAAd/tenor.gif',
 )
 
 FLEX_THUMBNAILS_BREW_ELECTRONICAL: Final[tuple[str, ...]] = (
@@ -1933,6 +1958,14 @@ FLEX_THUMBNAILS_PETS_CATCH_TT: Final[tuple[str, ...]] = (
     'https://media.giphy.com/media/U7JM6ChJMrFnXfFHvE/giphy.gif',
 )
 
+FLEX_THUMBNAILS_PETS_CLAIM_CAPSULE: Final[tuple[str, ...]] = (
+    'https://c.tenor.com/4CHnbg_zVEoAAAAC/tenor.gif',
+    'https://c.tenor.com/zbDHXQ60jMIAAAAC/tenor.gif',
+    'https://c.tenor.com/CcOypZMhDS8AAAAC/tenor.gif',
+    'https://c.tenor.com/IOQxHefEGmoAAAAC/tenor.gif',
+    'https://c.tenor.com/lhww8cZ_nEQAAAAC/tenor.gif',
+)
+
 FLEX_THUMBNAILS_PETS_CLAIM_OMEGA: Final[tuple[str, ...]] = (
     'https://media.tenor.com/sQVkHE1_BgcAAAAC/ahh-scared.gif',
     'https://media.tenor.com/eFNKOmp6hSsAAAAC/olaf-disney.gif',
@@ -2054,6 +2087,10 @@ FLEX_THUMBNAILS_TIME_TRAVEL_100_PLUS: Final[tuple[str, ...]] = (
     'https://media.tenor.com/twi6r7OVu6MAAAAd/blue-spiral.gif',
     'https://media.tenor.com/VrcRpp5urSoAAAAC/time-clock.gif',
     'https://media.tenor.com/7JwnIw76nRwAAAAC/time-clock.gif',
+)
+
+FLEX_THUMBNAILS_TIME_TRAVEL_1000000: Final[tuple[str, ...]] = (
+    'https://c.tenor.com/Z3mgGQaNQt4AAAAC/tenor.gif',
 )
 
 FLEX_THUMBNAILS_TIME_TRAVEL_300: Final[tuple[str, ...]] = (

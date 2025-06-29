@@ -1,14 +1,12 @@
-# Navi
+# Unknown Navi
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python: 3.12](https://img.shields.io/badge/Python-3.12-brightgreen.svg)](https://www.python.org/) [![Database: SQLite](https://img.shields.io/badge/Database-SQLite-blue.svg)](https://www.sqlite.org/index.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python: 3.12](https://img.shields.io/badge/Python-3.12+-brightgreen.svg)](https://www.python.org/) [![Database: SQLite](https://img.shields.io/badge/Database-SQLite-blue.svg)](https://www.sqlite.org/index.html)
 
 Reminder / Helper for EPIC RPG.  
 
-## How to invite Navi
+## How to invite Unknown Navi
 
-If you don't want to run Navi yourself, you can invite [Navi Lite](https://canary.discord.com/api/oauth2/authorize?client_id=1213487623688167494&permissions=378944&scope=bot). This is a global version hosted by me. To prevent rate limit issues, it has the following limitations:  
-• Reactions are permanently disabled.  
-• Auto-ready frequency is fixed to `after hunt only`.  
+If you don't want to run Navi yourself, you can invite [Unknown Navi](https://discord.com/oauth2/authorize?client_id=1146740380755296307&permissions=510016&integration_type=0&scope=bot).
 
 ## How to run Navi
 
@@ -115,4 +113,4 @@ Ignore other dev commands, they are my own test commands and might even mess up 
 
 ## Support server
 
-• If you find bugs, have issues running Navi or something else, feel free to join the [support server](https://discord.gg/Kz2Vz2K4gy).  
+• If you find bugs, have issues running Unknown Navi or something else, feel free to join the [support server](https://discord.gg/JWRy5yKVcc).  

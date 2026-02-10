@@ -1,23 +1,21 @@
-# Navi
+# Unknown Navi
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python: 3.12](https://img.shields.io/badge/Python-3.12-brightgreen.svg)](https://www.python.org/) [![Database: SQLite](https://img.shields.io/badge/Database-SQLite-blue.svg)](https://www.sqlite.org/index.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Python: 3.12](https://img.shields.io/badge/Python-3.12+-brightgreen.svg)](https://www.python.org/) [![Database: SQLite](https://img.shields.io/badge/Database-SQLite-blue.svg)](https://www.sqlite.org/index.html)
 
 Reminder / Helper for EPIC RPG.  
 
-## How to invite Navi
+## How to invite Unknown Navi
 
-If you don't want to run Navi yourself, you can invite [Navi Lite](https://canary.discord.com/api/oauth2/authorize?client_id=1213487623688167494&permissions=378944&scope=bot). This is a global version hosted by me. To prevent rate limit issues, it has the following limitations:  
-• Reactions are permanently disabled.  
-• Auto-ready frequency is fixed to `after hunt only`.  
+If you don't want to run Navi yourself, you can invite [Unknown Navi](https://discord.com/oauth2/authorize?client_id=1146740380755296307&permissions=510016&integration_type=0&scope=bot).
 
 ## How to run Navi
 
 • Install python 3.12.  
 • Install all third party libraries mentioned in `requirements.txt` (`python3.12 -m pip install -r requirements.txt`).  
 • Create a Discord application with a bot user, activate the required intents (see below) and generate a bot token.  
+• Rename `default.env` to `.env` and set the variables mentioned in the file.  
 • Rename `database/default_db.db` to `database/navi_db.db`.  
-• Upload all emojis in `images/emojis` to private Discord servers. **DO NOT CHANGE THEIR NAMES**.  
-• Rename `default.env` to `.env` and set all variables as explained in the file.  
+• Upload all emojis in `images/emojis` to private servers. **DO NOT CHANGE THEIR NAMES**.  
 • Run the bot by running `bot.py` (`python3.12 bot.py`).  
 • Invite Navi to all your emoji servers and all other servers you want to use it. Note the required permissions below.  
 • Run the command `/dev emoji-update` to update the emojis in the code to your uploaded ones.  
@@ -25,12 +23,11 @@ If you don't want to run Navi yourself, you can invite [Navi Lite](https://canar
 
 ## How to update Navi
 
-• Shut down Navi.
-• Replace all `.py` files with the new ones.  
+• Replace all other `.py` files with the new ones.  
 • Upload new emojis (if any) in `images/emojis` to your emoji servers. **DO NOT CHANGE THEIR NAMES**.  
-• Start navi.
 • Run the command `/dev emoji-update` to update the emojis in the code to your uploaded ones.  
 • Run the command `/dev emoji-check` to make sure all emojis are present.  
+• Restart the bot.  
 
 ## Required intents
 
@@ -116,4 +113,4 @@ Ignore other dev commands, they are my own test commands and might even mess up 
 
 ## Support server
 
-• If you find bugs, have issues running Navi or something else, feel free to join the [support server](https://discord.gg/Kz2Vz2K4gy).  
+• If you find bugs, have issues running Unknown Navi or something else, feel free to join the [support server](https://discord.gg/JWRy5yKVcc).  

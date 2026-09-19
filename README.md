@@ -47,8 +47,7 @@ If you don't want to run Navi yourself, you can invite [Unknown Navi](https://di
 
 ## Commands
 
-Navi uses both slash and text commands. Use `/help` for an overview.  
-Default prefix for text commands is `navi ` and is changeable in `/settings server`.  
+Navi uses slash and mention commands. Use `/help` for an overview.  
 
 ## Dev commands
 

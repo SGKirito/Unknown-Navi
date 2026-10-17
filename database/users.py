@@ -71,6 +71,8 @@ class User():
     alert_partner: UserAlert
     alert_pet_tournament: UserAlert
     alert_pets: UserAlert
+    alert_produce: UserAlert
+    alert_produce_unlocked: bool
     alert_quest: UserAlert
     alert_surf: UserAlert
     alert_training: UserAlert
@@ -215,6 +217,8 @@ class User():
         self.alert_partner = new_settings.alert_partner
         self.alert_pet_tournament = new_settings.alert_pet_tournament
         self.alert_pets = new_settings.alert_pets
+        self.alert_produce = new_settings.alert_produce
+        self.alert_produce_unlocked = new_settings.alert_produce_unlocked
         self.alert_quest = new_settings.alert_quest
         self.alert_surf = new_settings.alert_surf
         self.alert_training = new_settings.alert_training
@@ -451,6 +455,11 @@ class User():
             alert_pets_enabled: bool
             alert_pets_message: str
             alert_pets_visible: bool
+            alert_produce_enabled: bool
+            alert_produce_message: str
+            alert_produce_multiplier: float
+            alert_produce_visible: bool
+            alert_produce_unlocked: bool
             alert_quest_enabled: bool
             alert_quest_message: str
             alert_quest_multiplier: float
@@ -791,6 +800,11 @@ async def _dict_to_user(record: dict[str, Any]) -> User:
                                    message=record['alert_pets_message'],
                                    multiplier=1.0,
                                    visible=bool(record['alert_pets_visible'])),
+            alert_produce = UserAlert(enabled=bool(record['alert_produce_enabled']),
+                                      message=record['alert_produce_message'],
+                                      multiplier=float(record['alert_produce_multiplier']),
+                                      visible=bool(record['alert_produce_visible'])),
+            alert_produce_unlocked = bool(record['alert_produce_unlocked']),
             alert_quest = UserAlert(enabled=bool(record['alert_quest_enabled']),
                                     message=record['alert_quest_message'],
                                     multiplier=float(record['alert_quest_multiplier']),
@@ -898,7 +912,7 @@ async def _dict_to_user(record: dict[str, Any]) -> User:
             slash_mentions_enabled = bool(record['slash_mentions_enabled']),
             surf_helper_enabled = bool(record['surf_helper_enabled']),
             time_potion_warning_enabled = bool(record['time_potion_warning_enabled']),
-            time_travel_count = record['time_travel_count'],
+            time_travel_count = 0 if record['time_travel_count'] is None else record['time_travel_count'],
             top_hat_unlocked = bool(record['top_hat_unlocked']),
             tracking_enabled = bool(record['tracking_enabled']),
             trade_daily_done = record['trade_daily_done'],
@@ -1145,6 +1159,11 @@ async def _update_user(user: User, **updated_settings) -> None:
         alert_pets_enabled: bool
         alert_pets_message: str
         alert_pets_visible: bool
+        alert_produce_enabled: bool
+        alert_produce_message: str
+        alert_produce_multiplier: float
+        alert_produce_visible: bool
+        alert_produce_unlocked: bool
         alert_quest_enabled: bool
         alert_quest_message: str
         alert_quest_multiplier: float

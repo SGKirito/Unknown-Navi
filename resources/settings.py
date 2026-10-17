@@ -17,7 +17,7 @@ ENV_VARIABLE_MISSING: Final[str] = (
 )
 
 PYTHON_VERSION: Final[float] = 3.12
-NAVI_DB_VERSION: Final[int] = 30
+NAVI_DB_VERSION: Final[int] = 31
 
 # Files and directories
 BOT_DIR: Final[str] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -177,9 +177,6 @@ DONOR_COOLDOWNS: Final[tuple[float, float, float, float]] = (1.0, 0.9, 0.8, 0.65
 
 EPIC_RPG_ID: Final[int] = 555955826880413696
 TESTY_ID: Final[int] = 1050765002950332456 # Miriel's test bot to test triggers
-
-
-DEFAULT_PREFIX: Final[str] = 'navi '
 
 INTERACTION_TIMEOUT: Final[int] = 300
 
